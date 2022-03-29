@@ -4,16 +4,8 @@
 
 import sys
 import logging
-#import subprocess
-#import shutil
-
 from setuptools import setup, find_packages
-#from setuptools.command.build_py import build_py
-#from setuptools.extension import Extension
 
-#import numpy as np
-#from Cython.Build import cythonize
-#import cmake
 
 
 
@@ -52,6 +44,7 @@ Programming Language :: Python
 Programming Language :: Python :: 3
 Programming Language :: Python :: 3.8
 Programming Language :: Python :: 3.9
+Programming Language :: Python :: 3.10
 Topic :: Software Development
 Topic :: Scientific/Engineering
 Typing :: Typed
@@ -74,21 +67,10 @@ setup_args = dict(
     license='MIT',
     classifiers = [_f for _f in CLASSIFIERS.split('\n') if _f],
     keywords=[ 'multiprocessing', 'Python' ],
-    #ext_modules=EXT_MODULES,
-    #cmdclass = cmdclass,
-    #include_dirs=np.get_include(),
     packages=find_packages(),
     package_dir={'tools-mp': 'tools_mp'},
-    #include_package_data = True,
     install_requires=DEPENDENCIES,
-    #use_scm_version=True,
-    #setup_requires=['setuptools_scm'],
     zip_safe= True,
 )
-
-
-
-
-
 
 setup(**setup_args)

@@ -12,11 +12,32 @@
 #####################################################################################################################################################
 #---------------------------------------------------------------------------------------------------------------------------------------------------#
 # Load essential packages:
-import multiprocessing as mp
+import multiprocessing
+#from concurrent.futures import ProcessPoolExecutor as Pool
 import tqdm
 #---------------------------------------------------------------------------------------------------------------------------------------------------#
 #####################################################################################################################################################
+import multiprocessing.pool
 
+class NoDaemonProcess(multiprocessing.Process):
+    @property
+    def daemon(self):
+        return False
+
+    @daemon.setter
+    def daemon(self, value):
+        pass
+
+
+class NoDaemonContext(type(multiprocessing.get_context())):
+    Process = NoDaemonProcess
+
+# We sub-class multiprocessing.pool.Pool instead of multiprocessing.Pool
+# because the latter is only a wrapper function, not a proper class.
+class NestablePool(multiprocessing.pool.Pool):
+    def __init__(self, *args, **kwargs):
+        kwargs['context'] = NoDaemonContext()
+        super(NestablePool, self).__init__(*args, **kwargs)
 
 #####################################################################################################################################################
 #---------------------------------------------------------------------------------------------------------------------------------------------------#
@@ -28,8 +49,8 @@ def multiprocess(
 	workers: int = None,
 	):
 	if workers == None:
-		workers = mp.cpu_count()
-	pool = mp.Pool( workers )
+		workers = multiprocessing.cpu_count()
+	pool = multiprocessing.Pool( workers )
 	tasks = ( ( function, x ) for x in args)
 	data = None
 	if return_data:
