@@ -5,15 +5,22 @@ This Python library provides a convenient one-line multiprocessing option that c
 ```Python
 from tools_mp import multiprocess
 
-def any_function(arg):
+def any_function( arg_1, arg_2, ..., arg_n ):
 	do something
 	return result
 
-args = [ (arg) for arg in arguments ]
+args = [ 
+	{
+		'arg_1': arg_1,
+		'arg_2': arg_2,
+		...
+		'arg_n': arg_n,
+		} for arg_1, arg_2, ..., arg_n in arguments
+	]
 
 data = multiprocess(
-	any_function,
-	args,
+	function = any_function,
+	args = args,
 	return_data = True,
 	verbose = True,
 	workers = 8,
