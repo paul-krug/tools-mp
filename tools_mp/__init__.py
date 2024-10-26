@@ -1,4 +1,6 @@
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 
-from .multiprocessor import multiprocess
+from .processor import multiprocess
+from .processor import process
+from .processor import single_process
