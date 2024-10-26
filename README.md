@@ -34,7 +34,10 @@ data = process(
     return_data = True,
     verbose = True,
     workers = 8,
-    mp_threshold = 4, # <- if the number of tasks is less than this value, the process function will use single core processing, otherwise it will use multiprocessing. This can speed up the processing of small tasks significantly, as the overhead of multiprocessing is avoided.
+    mp_threshold = 4, # <- if the number of tasks is less than this value,
+	# the process function will use single core processing, otherwise it
+	# will use multiprocessing. This can speed up the processing of small
+	# tasks significantly, as the overhead of multiprocessing is avoided.
     **kwargs,
     )
 
