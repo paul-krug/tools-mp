@@ -20,26 +20,29 @@ def multiprocess(
         workers = multiprocessing.cpu_count()
 
     # Set up the pool with workers and kwargs
-    with multiprocessing.Pool(
-        workers,
-        **kwargs,
-    ) as pool:
-        tasks = ((function, x) for x in args)
-        if return_data:
-            data = []
-            if verbose :
-                for x in tqdm.tqdm(pool.imap(_worker, tasks), total=len(args)):
-                    data.append(x)
-            else:
-                for x in pool.imap(_worker, tasks):
-                    data.append(x)
+    pool = multiprocessing.Pool( workers, **kwargs )
+
+    # Run the pool
+    tasks = ((function, x) for x in args)
+    if return_data:
+        data = []
+        if verbose :
+            for x in tqdm.tqdm(pool.imap(_worker, tasks), total=len(args)):
+                data.append(x)
         else:
-            data = None
-            if verbose:
-                for x in tqdm.tqdm(pool.imap(_worker, tasks), total=len(args)):
-                    pass
-            else:
-                pool.imap(_worker, tasks)
+            for x in pool.imap(_worker, tasks):
+                data.append(x)
+    else:
+        data = None
+        if verbose:
+            for x in tqdm.tqdm(pool.imap(_worker, tasks), total=len(args)):
+                pass
+        else:
+            pool.imap(_worker, tasks)
+            
+    # Clean up
+    pool.close()
+    pool.join()
     return data
 
 def process(
